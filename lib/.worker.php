@@ -7,7 +7,8 @@ require('./SQLiteQueue.php');
 
 $db = new SQLiteQueue('../queue.db');
 $apilimit = max(10/RATE_PER_10SEC, 600/RATE_PER_10MIN)*1000000; //usec
-
+if(!is_dir('../json')) mkdir('../json');
+  
 while(true){
   //check if queue has item
   $item = $db->peek();
