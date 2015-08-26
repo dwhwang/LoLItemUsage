@@ -64,11 +64,10 @@ function response_parser($raw){
 // return true if match is processed (cached or don't exsist)
 // return false if rate limit exceed
 function cacheMatch($region, $matchid){
-  $file = '../json/'.$region.'/'.$matchid.'.json';
+  $file = '../json/'.$region.'_'.$matchid.'.json';
   $url = 'https://'.$region.'.api.pvp.net/api/lol/'.$region.'/'.MATCH_VERSION.'/match/'.$matchid.'?includeTimeline=true&api_key='.API_KEY;
-  if(!is_dir('../json')) mkdir('../json');
-  if(!is_dir('../json/'.$region)) mkdir('../json/'.$region);
 
+  //TODO: check the processed match id
   if(file_exists($file)){
       echo "Match: ".$region." ".$matchid." Already cached.\n";
       return true;
