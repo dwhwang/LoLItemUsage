@@ -6,7 +6,7 @@ class SQLiteQueue {
 'CREATE TABLE IF NOT EXISTS queue (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   region TEXT,
-  match TEXT
+  match INTEGER
 )';
   private static $_unique = 'CREATE UNIQUE INDEX IF NOT EXISTS uq_locmatches ON queue (region, match)';
   private static $_count = 'SELECT COUNT(*) FROM queue';
