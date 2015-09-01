@@ -12,11 +12,12 @@ A few things not done yet:
 3. That front end in the demo page still needs a lot of work...
 4. Collect more data. The demo only shows data from NA.
 5. Comment & documentation. 
+6. Not going to use php as back end if it ends up as a CLI program next time... I was trying to make it a web service but run into a lot of issues.
 
 #### Requirements
 - php
-  - curl
-  - SQLite 3
+  - curl extention
+  - SQLite 3 extention
 
 This is a set of PHP CLI program to get data ready, so it should only be run in command line.
 
@@ -43,6 +44,13 @@ Back end
 | lib/preparejson.php   | prepare data for front end website |
 | lib/SQLiteQueue.php   | handling queue using SQLite 3 |
 | lib/config.php        | configuartion file. Your API key goes here. |
+
+The back end process flow should be like this:
+
+1. getMatchData.php - get dataset into queue
+2. worker.php - call api to get raw json
+3. analyzer.php - extract data from raw json into database
+4. preparejson.php - get data from database and put into json for front end use
 
 #### Attribution
 
