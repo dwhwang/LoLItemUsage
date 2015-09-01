@@ -24,10 +24,11 @@ Front end
 
 | File                  | descriptions |
 | --------------------- | ------------ |
-| demo.html             | demo page to show off collected data |
-| json/itemdata.json    | prepared data from preparejson.php, this is the main data |
-| json/item511.json     | cached 5.11.1 item static json for convience |
-| json/item514.json     | cached 5.14.1 item static json for convience |
+| site/demo.html             | demo page to show off collected data |
+| site/app.js                | demo page javascript |
+| site/json/itemdata.json    | prepared data from preparejson.php, this is the main data |
+| site/json/item511.json     | cached 5.11.1 item static json for convience |
+| site/json/item514.json     | cached 5.14.1 item static json for convience |
 
 Back end
 
