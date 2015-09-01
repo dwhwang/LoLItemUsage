@@ -5,11 +5,13 @@ You can see the demo [here](http://dwhwang.github.io/LoLItemUsageAnalysis/demo.h
 This project is intended for Riot's API Challenge 2.0. 
 I couln't finished my whole idea on time, but at least I can show some part of my ideas in the demo.
 
-A few things not implemented yet:
+A few things not done yet:
 
 1. worker.php should seperate file writing action to another thread. It's holding the speed down.
 2. Planning the query about item vs champion vs buying time vs patch. The data is there, but the problem is how to present it.
 3. That front end in the demo page still needs a lot of work...
+4. Collect more data. The demo only shows data from NA.
+5. Comment & documentation. 
 
 #### Requirements
 - php
