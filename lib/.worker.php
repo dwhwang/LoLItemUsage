@@ -8,7 +8,8 @@ require('./SQLiteQueue.php');
 $db = new SQLiteQueue('../queue.db');
 $apilimit = max(10/RATE_PER_10SEC, 600/RATE_PER_10MIN)*1000000; //usec
 if(!is_dir('../json')) mkdir('../json');
-  
+
+$time_start = microtime(true);
 while(true){
   //check if queue has item
   $item = $db->peek();
@@ -19,10 +20,14 @@ while(true){
     usleep($apilimit);
   }else{
     // nothing here, sleep for some time
-    echo "waiting for queue....\n";
-    sleep(10);
+    //echo "waiting for queue....\n";
+    //sleep(10);
+    break;
   }
 }
+$time_end = microtime(true);
+$time = $time_end - $time_start;
+printf("Done. Time used: %.3f seconds.\n", $time);
 
 // parse http header response into array
 function response_parser($raw){
@@ -98,18 +103,27 @@ function cacheMatch($region, $matchid){
 
     } elseif ($code == 400) { //bad request
 
-      echo "Error: 400 Bad Request. URL parameter is missing.\n";
-      echo "Request: ".$url."\n";
+      $msg = "Error: 400 Bad Request. URL parameter is missing.\n";
+      $msg = $msg."Request: ".$url."\n";
+      msglog($msg);
       exit(1);
 
     } elseif ($code == 401) { //unauthorized
 
-      echo "Error: 401 Unauthorized. Check your api key.\n";
+      $msg = "Error: 401 Unauthorized. Check your api key.\n";
+      msglog($msg);
+      exit(1);
+
+    } elseif ($code == 403) { //black listed
+
+      $msg = "Error: 403 blacked listed. \n";
+      msglog($msg);
       exit(1);
 
     } elseif ($code == 404) { //not found
       // skip this request
-      echo 'Match not found: '.$region.' match '.$matchid."\n";
+      $msg = 'Match not found: '.$region.' match '.$matchid."\n";
+      msglog($msg);
       return true;
 
     } elseif ($code == 429) { //rate limit exceeded
@@ -118,22 +132,32 @@ function cacheMatch($region, $matchid){
       $delay = 1; // 1 seconds back off if not api rate exceeded
       if(isset($header['Retry-After'])) $delay = $header['Retry-After'];
 
-      echo "Error: 429 Rate Limit Exceeded. Retry after ".$delay." sec.\n";
+      $msg = "Error: 429 Rate Limit Exceeded. Retry after ".$delay." sec.\n";
+      //$msg = $msg.print_r($header, true)."\n";
+      msglog($msg);
       sleep($delay);
       return false;
 
     } elseif ($code >= 500) { //server error or service unavailable
       // wait for some time then try again
-      echo "Error: 5xx ".$region." Service Unavailable. Retry after 10 min...\n";
-      sleep(600); // wait 10 min for server to come back up
+      $msg = "Error: ".$code." ".$region." Service Unavailable. Retry after 1 min...\n";
+      msglog($msg);
+      sleep(60); // wait 1 min for server to come back up
       return false;
 
     } else { // other response
       //TODO: other response handling
-      echo "Response Code: ".$code." Match: ".$region." ".$matchid."\n";
+      $msg = "Response Code: ".$code." Match: ".$region." ".$matchid."\n";
+      msglog($msg);
       return true;
 
     }
   }
+}
+
+function msglog($message){
+  $log = './log.txt';
+  echo $message;
+  file_put_contents($log, $message, FILE_APPEND);
 }
 ?>

@@ -13,22 +13,21 @@ class SQLiteQueue {
   private static $_push = 'INSERT OR IGNORE INTO queue (region, match) VALUES (?, ?)';
   private static $_pop_get = 'SELECT id, region, match FROM queue ORDER BY id LIMIT 1';
   private static $_pop_del = 'DELETE FROM queue WHERE id = ?';
-  private static $_lock = 'BEGIN';
+  private static $_lock = 'BEGIN IMMEDIATE';
   private static $_unlock = 'COMMIT';
 
   // class variable
-  private $db_file = null;
   private $dbo = null;
   private $stmt_push = null;
   private $stmt_del = null;
 
   public function __construct($db){
     if(!$db){
-      $this->db_file = './queue.db';
+      $db_file = './queue.db';
     }else{
-      $this->db_file = $db;
+      $db_file = $db;
     }
-    $this->dbo = new SQLite3($this->db_file);
+    $this->dbo = new SQLite3($db_file);
     $this->dbo->exec($this::$_create);
     $this->dbo->exec($this::$_unique);
   }
@@ -46,10 +45,12 @@ class SQLiteQueue {
     $this->stmt_push->bindValue(1, $region);
 
     if(is_array($match)){
+      $this->dbo->exec($this::$_lock);
       foreach($match as $m){
         $this->stmt_push->bindValue(2, $m);
         $this->stmt_push->execute();
       }
+      $this->dbo->exec($this::$_unlock);
     }else{
       $this->stmt_push->bindValue(2, $match);
       $this->stmt_push->execute();
