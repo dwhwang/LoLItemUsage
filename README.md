@@ -5,14 +5,17 @@ work in progresss
 - php
   - curl
   - SQLite 3
+This is a set of PHP CLI program to get data ready.
 
 #### file description
 
 | File                  | descriptions |
 | --------------------- | ------------ |
-| getdataset.php        | simple interface for getMatchData.php |
 | lib/getMatchData.php  | parse and add dataset into queue |
-| lib/.worker.php       | background task to get match data |
+| lib/worker.php        | background task to get match data |
+| lib/analyzer.php      | extract data from raw json and store into database |
+| lib/ItemAnalyzer.php  | handling SQLite 3 database for main data |
+| lib/preparejson.php   | prepare data for website |
 | lib/SQLiteQueue.php   | handling queue using SQLite 3 |
 | lib/config.php        | configuartion file. Your API key goes here. |
 
