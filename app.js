@@ -19,17 +19,18 @@ $.getJSON("./json/itemdata.json", function (data) {
         itembox += '<div class="panel-heading" id="'+item+'">'+item+'</div>\n';
 
         itembox += '<div class="panel-body">\n';
-          itembox += '<div><h4>5.11.1</h4>\n';
+        itembox += '<div class="row">'
+          itembox += '<div class="col-md-6"><div class="panel panel-default"><div class="panel-body"><h4>5.11.1</h4>\n';
           itembox += '<p>'+item511['data'][item]['name']+' - '+item511['data'][item]['gold']['total']+'g</p>\n';
-          itembox += '<p><img src="'+url511+item511['data'][item]['image']['full']+'" class="img-thumbnail"></p>\n';
+          itembox += '<p><img src="'+url511+item511['data'][item]['image']['full']+'"></p>\n';
           itembox += '<p>'+item511['data'][item]['description']+'</p>\n';
-          itembox += '</div>\n';
-          itembox += '<hr>\n';
-          itembox += '<div><h4>5.14.1</h4>\n';
+          itembox += '</div></div></div>\n';
+          itembox += '<div class="col-md-6"><div class="panel panel-default"><div class="panel-body"><h4>5.14.1</h4>\n';
           itembox += '<p>'+item514['data'][item]['name']+' - '+item514['data'][item]['gold']['total']+'g</p>\n';
-          itembox += '<p><img src="'+url514+item514['data'][item]['image']['full']+'" class="img-thumbnail"></p>\n';
+          itembox += '<p><img src="'+url514+item514['data'][item]['image']['full']+'"></p>\n';
           itembox += '<p>'+item514['data'][item]['description']+'</p>\n';
-          itembox += '</div>\n';
+          itembox += '</div></div></div>\n';
+        itembox += '</div>\n';
         itembox += '</div>\n';
 
         itembox += '<table class="table">\n';
